@@ -1,6 +1,8 @@
 package app;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,12 +25,13 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class Register extends Application {
+public class Register extends Application implements EventHandler<ActionEvent> {
 
 	Scene scene;
 	GridPane gridPane, titlePane;
+	HBox horizontalLayout;
 	BorderPane borderPane;
-	Button btnRegister;
+	Button btnRegister, btnBack;
 	Label lblRegister, lblId, lblName, lblPassword, lblEmail, lblPhone, lblAddress, lblGender;
 	TextField txtId, txtName, txtEmail;
 	PasswordField txtPass;
@@ -42,6 +45,8 @@ public class Register extends Application {
 		gridPane.setAlignment(Pos.TOP_CENTER);
 
 		borderPane = new BorderPane();
+		
+		horizontalLayout = new HBox();
 
 		titlePane = new GridPane();
 		titlePane.setAlignment(Pos.CENTER);
@@ -74,6 +79,9 @@ public class Register extends Application {
 		btnRegister = new Button("Register");
 		btnRegister.setAlignment(Pos.CENTER);
 		btnRegister.setPadding(new Insets(5, 10, 5, 10));
+		btnBack = new Button("Back");
+		btnBack.setAlignment(Pos.CENTER);
+		btnBack.setPadding(new Insets(5, 10, 5, 10));
 //		add sub container
 //		col, row, colspan, rowspan
 		gridPane.setVgap(25);
@@ -105,20 +113,32 @@ public class Register extends Application {
 		gridPane.add(lblAddress, 0, 7);
 		gridPane.add(txtAddress, 1, 7, 2, 1);
 
+		horizontalLayout.getChildren().add(btnRegister);
+		horizontalLayout.getChildren().add(btnBack);
+		horizontalLayout.setAlignment(Pos.CENTER);
+		horizontalLayout.setSpacing(20);
+		
 //		add to container
 
 		borderPane.setTop(lblRegister);
 		borderPane.setAlignment(lblRegister, Pos.CENTER);
+		borderPane.setMargin(lblRegister, new Insets(20,0,0,0));
 		borderPane.setCenter(gridPane);
 		borderPane.setAlignment(gridPane, Pos.TOP_CENTER);
-		borderPane.setBottom(btnRegister);
-		borderPane.setAlignment(btnRegister, Pos.TOP_CENTER);
-		borderPane.setMargin(btnRegister, new Insets(0, 0, 50, 0));
+		borderPane.setBottom(horizontalLayout);
+		borderPane.setAlignment(horizontalLayout, Pos.TOP_CENTER);
+		borderPane.setMargin(horizontalLayout, new Insets(0, 0, 50, 0));
 
+	}
+	
+	void addAction() {
+		btnBack.setOnAction(this);
+		btnRegister.setOnAction(this);
 	}
 
 	public Register() {
 		init();
+		addAction();
 	}
 
 	@Override
@@ -127,7 +147,23 @@ public class Register extends Application {
 		stage.setTitle("Register Form");
 		stage.setResizable(false);
 		stage.show();
+	}
 
+	@Override
+	public void handle(ActionEvent e) {
+		if(e.getSource() == btnBack) {
+			Stage s = (Stage)btnBack.getScene().getWindow();
+			s.close();
+			
+			Stage next = new Stage();
+			try {
+				new Login().start(next);
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		} else if(e.getSource() == btnRegister) {
+			
+		}
 	}
 
 }
