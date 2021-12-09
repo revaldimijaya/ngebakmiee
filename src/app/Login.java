@@ -1,15 +1,20 @@
 package app;
 
+import controller.UserController;
+import helper.ErrorInfo;
+import helper.SuccessInfo;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import model.User;
 
 public class Login extends Application implements EventHandler<ActionEvent>{
 
@@ -87,9 +93,13 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 		borderPane.setBottom(verticalLayout);
 		borderPane.setAlignment(verticalLayout, Pos.TOP_CENTER);
 		borderPane.setMargin(verticalLayout, new Insets(0,0,20,0));
+		
+		txtEmail.setText("revaldi.mijaya@mail.com");
+		txtPass.setText("revaldi123");
 	}
 	
 	public void addAction() {
+		btnLogin.setOnAction(this);
 		lblToRegister.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -122,8 +132,40 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 	}
 
 	@Override
-	public void handle(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void handle(ActionEvent e) {
+		if(e.getSource() == btnLogin) {
+			if(txtEmail.getText().isEmpty() || txtPass.getText().isEmpty()) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Alert");
+				alert.setContentText(ErrorInfo.emptyCredential);
+				alert.showAndWait();
+				return;
+			}
+			User user = UserController.authUser(txtEmail.getText(), txtPass.getText());
+			if (user == null) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Alert");
+				alert.setContentText(ErrorInfo.wrongCredential);
+				alert.showAndWait();
+			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information");
+				alert.setContentText("Welcome "+user.getUsername()+" !");
+				alert.showAndWait();
+				
+				UserController.currUser = user;
+				
+				Stage curr = (Stage) btnLogin.getScene().getWindow();
+				curr.close();
+				
+				Stage next = new Stage();
+				try {
+					new HomePage().start(next);
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		}
 		
 	}
 
