@@ -22,7 +22,7 @@ public class DetailTransaction {
 	
 	public static Vector<DetailTransaction> getAllTransactionDetail(String TransactionID) {
 		ResultSet rs = Connect.getConnection()
-				.executeQuery("SELECT * FROM DetailTransactions WHERE TransactionID ='" + TransactionID + "'");
+				.executeQuery("SELECT * FROM DetailTransaction WHERE TransactionID ='" + TransactionID + "'");
 		Vector<DetailTransaction> details = new Vector<>();
 		DetailTransaction detail = null;
 		try {
@@ -41,7 +41,7 @@ public class DetailTransaction {
 
 	public static boolean insertTransactionDetail(DetailTransaction detail) {
 		PreparedStatement ps = Connect.getConnection().prepareStatement(
-				"INSERT INTO DetailTransactions(TransactionID, FoodID, Quantity)"
+				"INSERT INTO DetailTransaction(TransactionID, FoodID, Quantity)"
 						+ "VALUES (?,?,?)");
 
 		try {

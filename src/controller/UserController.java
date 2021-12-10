@@ -27,7 +27,7 @@ public class UserController {
 		Vector<User> users = User.getAllUser();
 		for (User user : users) {
 			if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
-				User.currentUser = user;
+				UserController.currUser = user;
 				return user;
 			}
 		}
@@ -35,7 +35,7 @@ public class UserController {
 	}
 	
 	public static String changePassword(String oldPass, String newPass, String confirmPass) {
-		if(!oldPass.equals(User.currentUser.getPassword())) {
+		if(!oldPass.equals(UserController.currUser.getPassword())) {
 			return ErrorInfo.wrongPass;
 		}
 		
@@ -62,13 +62,13 @@ public class UserController {
 			return ErrorInfo.wrongPass;
 		}
 		
-		boolean isSaved = User.changePassword(newPass, User.currentUser.getId());
+		boolean isSaved = User.changePassword(newPass, UserController.currUser.getId());
 		
 		if(!isSaved) {
 			return ErrorInfo.failedSaveDatabase;
 		}
 		
-		User.currentUser.setPassword(newPass);
+		UserController.currUser.setPassword(newPass);
 		
 		return SuccessInfo.successChangePassword;
 	}
@@ -108,7 +108,7 @@ public class UserController {
 			return ErrorInfo.userAddress;
 		}
 		
-		User user = User.currentUser;
+		User user = UserController.currUser;
 		user.setUsername(userName);
 		user.setEmail(userEmail);
 		user.setAddress(userAddress);

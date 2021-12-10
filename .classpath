@@ -11,12 +11,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Assistant Task/Java/NgeBakmiee/jfxtras-labs-9.0-r1.jar">
+	<classpathentry kind="lib" path="jfxtras-labs-9.0-r1.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Assistant Task/Java/NgeBakmiee/mysql-connector-java-5.1.49.jar">
+	<classpathentry kind="lib" path="mysql-connector-java-5.1.49.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

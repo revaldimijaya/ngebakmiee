@@ -23,7 +23,7 @@ public class HeaderTransaction {
 
 	public static Vector<HeaderTransaction> getAllTransactionHeader(String UserID) {
 		ResultSet rs = Connect.getConnection()
-				.executeQuery("SELECT * FROM HeaderTransactions WHERE UserID ='" + UserID + "'");
+				.executeQuery("SELECT * FROM HeaderTransaction WHERE UserID ='" + UserID + "'");
 		Vector<HeaderTransaction> headers = new Vector<>();
 		HeaderTransaction header = null;
 		try {
@@ -40,7 +40,7 @@ public class HeaderTransaction {
 
 	public static String getLastId() {
 		String TransactionID = null;
-		ResultSet rs = Connect.getConnection().executeQuery("SELECT * FROM HeaderTransactions ORDER BY TransactionID DESC LIMIT 1");
+		ResultSet rs = Connect.getConnection().executeQuery("SELECT * FROM HeaderTransaction ORDER BY TransactionID DESC LIMIT 1");
 		try {
 			while (rs.next()) {
 				TransactionID = rs.getString("TransactionID");
@@ -54,7 +54,7 @@ public class HeaderTransaction {
 
 	public static boolean insertHeaderTransaction(HeaderTransaction header) {
 		PreparedStatement ps = Connect.getConnection().prepareStatement(
-				"INSERT INTO HeaderTransactions(TransactionID, UserID, TransactionDate)"
+				"INSERT INTO HeaderTransaction(TransactionID, UserID, TransactionDate)"
 						+ "VALUES (?,?,?)");
 
 		try {

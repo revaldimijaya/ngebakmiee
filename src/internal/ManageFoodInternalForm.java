@@ -120,7 +120,7 @@ public class ManageFoodInternalForm extends BorderPane implements EventHandler<A
 		gridPane.setAlignment(Pos.CENTER);
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
-		gridPane.setPadding(new Insets(5));
+		gridPane.setPadding(new Insets(10));
 		
 		gridPane.add(lblNewFoodId, 0, 0);
 		gridPane.add(txtNewFoodId, 1, 0);

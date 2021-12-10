@@ -197,9 +197,39 @@ public class CartInternal extends BorderPane implements EventHandler<ActionEvent
 			}
 			
 		} else if(e.getSource() == btnClear) {
+			String userId = UserController.currUser.getId();
+			
+			String msg = CartController.clearCart(userId);
+			
+			if(msg.equals(SuccessInfo.successClearCart)) {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information");
+				alert.setContentText(msg);
+				alert.showAndWait();
+				refresh();
+			} else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning");
+				alert.setContentText(msg);
+				alert.showAndWait();
+			}
 			
 		} else if(e.getSource() == btnCheckout) {
+			String userId = UserController.currUser.getId();
 			
+			String msg = CartController.checkoutCart(userId);
+			if(msg.equals(SuccessInfo.successCheckoutCart)) {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information");
+				alert.setContentText(msg);
+				alert.showAndWait();
+				refresh();
+			} else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning");
+				alert.setContentText(msg);
+				alert.showAndWait();
+			}
 		}
 	}
 

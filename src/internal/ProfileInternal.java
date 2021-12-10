@@ -180,11 +180,6 @@ public class ProfileInternal extends BorderPane implements EventHandler<ActionEv
 				alert.setTitle("Information");
 				alert.setContentText(SuccessInfo.successUpdateUser);
 				alert.showAndWait();
-				UserController.currUser.setUsername(userName);
-				UserController.currUser.setEmail(userEmail);
-				UserController.currUser.setGender(userGender);
-				UserController.currUser.setAddress(userAddress);
-				UserController.currUser.setPhone(userPhone);
 				generateProfile();
 			} else {
 				Alert alert = new Alert(AlertType.ERROR);

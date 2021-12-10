@@ -14,11 +14,11 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		User user = UserController.authUser("daniel.mananta@mail.com", "daniel123");
-		UserController.currUser = user;
+//		User user = UserController.authUser("daniel.mananta@mail.com", "daniel123");
+//		UserController.currUser = user;
 		Stage next = new Stage();
 		try {
-			new HomePage().start(next);
+			new Login().start(next);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

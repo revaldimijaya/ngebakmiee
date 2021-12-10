@@ -32,7 +32,7 @@ public class HeaderController {
 	}
 	
 	public static Vector<HeaderTransaction> getHeader(){
-		return HeaderTransaction.getAllTransactionHeader(User.currentUser.getId());
+		return HeaderTransaction.getAllTransactionHeader(UserController.currUser.getId());
 	}
 
 }

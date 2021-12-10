@@ -2,6 +2,7 @@ package app;
 
 import controller.UserController;
 import helper.ErrorInfo;
+import helper.Path;
 import helper.SuccessInfo;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -95,7 +97,9 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 		borderPane.setMargin(verticalLayout, new Insets(0,0,20,0));
 		
 		txtEmail.setText("revaldi.mijaya@mail.com");
-		txtPass.setText("revaldi123");
+		txtPass.setText("revaldi111");
+		txtEmail.setText("daniel.mananta@mail.com");
+		txtPass.setText("daniel123");
 	}
 	
 	public void addAction() {
@@ -126,8 +130,9 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 	@Override
 	public void start(Stage stage) throws Exception {
 		stage.setScene(scene);
-		stage.setTitle("Login Form");
+		stage.setTitle("NgeBakmiee");
 		stage.setResizable(false);
+		stage.getIcons().add(new Image("file:ngebakmiee.png"));
 		stage.show();
 	}
 

@@ -19,7 +19,6 @@ public class User {
 	private String gender;
 	private String role;
 	
-	public static User currentUser;
 
 	public User(String id, String username, String email, String phone, String address, String password, String gender,
 			String role) {

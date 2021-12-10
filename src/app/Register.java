@@ -23,11 +23,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -38,9 +41,10 @@ public class Register extends Application implements EventHandler<ActionEvent> {
 	Scene scene;
 	GridPane gridPane, titlePane;
 	HBox horizontalLayout;
+	VBox verticalLayout;
 	BorderPane borderPane;
 	Button btnRegister, btnBack;
-	Label lblRegister, lblId, lblName, lblPassword, lblEmail, lblPhone, lblAddress, lblGender, lblRole;
+	Label lblRegister, lblId, lblName, lblPassword, lblEmail, lblPhone, lblAddress, lblGender, lblRole, lblBackToLogin;
 	TextField txtId, txtName, txtEmail, txtPhone;
 	PasswordField txtPass;
 	TextArea txtAddress;
@@ -53,8 +57,9 @@ public class Register extends Application implements EventHandler<ActionEvent> {
 		gridPane.setAlignment(Pos.TOP_CENTER);
 
 		borderPane = new BorderPane();
-		
+
 		horizontalLayout = new HBox();
+		verticalLayout = new VBox();
 
 		titlePane = new GridPane();
 		titlePane.setAlignment(Pos.CENTER);
@@ -69,6 +74,9 @@ public class Register extends Application implements EventHandler<ActionEvent> {
 		lblAddress = new Label("User Address");
 		lblGender = new Label("User Gender");
 		lblRole = new Label("Role");
+		lblBackToLogin = new Label("Already have an account ?");
+		lblBackToLogin.setTextFill(Color.BLUE);
+		lblBackToLogin.setUnderline(true);
 		txtId = new TextField();
 		txtId.setText(UserController.generateID());
 		txtId.setEditable(false);
@@ -90,9 +98,10 @@ public class Register extends Application implements EventHandler<ActionEvent> {
 		btnBack = new Button("Back");
 		btnBack.setAlignment(Pos.CENTER);
 		btnBack.setPadding(new Insets(5, 10, 5, 10));
-		String role[] = {"Admin", "Member"};
+		String role[] = { "Admin", "Member" };
 		cbRole = new ComboBox<>(FXCollections.observableArrayList(role));
 		cbRole.setValue(role[0]);
+		cbRole.setMaxWidth(Double.MAX_VALUE);
 //		add sub container
 //		col, row, colspan, rowspan
 		gridPane.setVgap(20);
@@ -126,27 +135,42 @@ public class Register extends Application implements EventHandler<ActionEvent> {
 		gridPane.add(lblRole, 0, 8);
 		gridPane.add(cbRole, 1, 8, 2, 1);
 
-		horizontalLayout.getChildren().add(btnRegister);
-		horizontalLayout.getChildren().add(btnBack);
-		horizontalLayout.setAlignment(Pos.CENTER);
-		horizontalLayout.setSpacing(20);
-		
+		verticalLayout.getChildren().add(btnRegister);
+		verticalLayout.getChildren().add(lblBackToLogin);
+		verticalLayout.setAlignment(Pos.CENTER);
+		verticalLayout.setSpacing(20);
+
 //		add to container
 
 		borderPane.setTop(lblRegister);
 		borderPane.setAlignment(lblRegister, Pos.CENTER);
-		borderPane.setMargin(lblRegister, new Insets(20,0,0,0));
+		borderPane.setMargin(lblRegister, new Insets(20, 0, 0, 0));
 		borderPane.setCenter(gridPane);
 		borderPane.setAlignment(gridPane, Pos.TOP_CENTER);
-		borderPane.setBottom(horizontalLayout);
-		borderPane.setAlignment(horizontalLayout, Pos.TOP_CENTER);
-		borderPane.setMargin(horizontalLayout, new Insets(0, 0, 30, 0));
+		borderPane.setBottom(verticalLayout);
+		borderPane.setAlignment(verticalLayout, Pos.TOP_CENTER);
+		borderPane.setMargin(verticalLayout, new Insets(20, 0, 20, 0));
 
 	}
-	
+
 	void addAction() {
 		btnBack.setOnAction(this);
 		btnRegister.setOnAction(this);
+		lblBackToLogin.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				Stage s = (Stage)lblBackToLogin.getScene().getWindow();
+				s.close();
+				
+				Stage next = new Stage();
+				try {
+					new Login().start(next);
+				} catch (Exception e2) {
+					
+				}
+			}
+		});
 	}
 
 	public Register() {
@@ -157,24 +181,25 @@ public class Register extends Application implements EventHandler<ActionEvent> {
 	@Override
 	public void start(Stage stage) throws Exception {
 		stage.setScene(scene);
-		stage.setTitle("Register Form");
+		stage.setTitle("NgeBakmiee");
 		stage.setResizable(false);
+		stage.getIcons().add(new Image("file:ngebakmiee.png"));
 		stage.show();
 	}
 
 	@Override
 	public void handle(ActionEvent e) {
-		if(e.getSource() == btnBack) {
-			Stage s = (Stage)btnBack.getScene().getWindow();
+		if (e.getSource() == btnBack) {
+			Stage s = (Stage) btnBack.getScene().getWindow();
 			s.close();
-			
+
 			Stage next = new Stage();
 			try {
 				new Login().start(next);
 			} catch (Exception e2) {
 				// TODO: handle exception
 			}
-		} else if(e.getSource() == btnRegister) {
+		} else if (e.getSource() == btnRegister) {
 			String userId = txtId.getText();
 			String userName = txtName.getText();
 			String userEmail = txtEmail.getText();
@@ -184,22 +209,23 @@ public class Register extends Application implements EventHandler<ActionEvent> {
 			String userPhone = txtPhone.getText();
 			String userRole = cbRole.getValue().toString();
 
-			String registered = UserController.insertUser(userId, userName, userEmail, userPassword, userGender, userAddress, userPhone, userRole);
-			if(registered.equals(SuccessInfo.successRegister)) {
+			String registered = UserController.insertUser(userId, userName, userEmail, userPassword, userGender,
+					userAddress, userPhone, userRole);
+			if (registered.equals(SuccessInfo.successRegister)) {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Information");
 				alert.setContentText(SuccessInfo.successRegister);
 				alert.showAndWait();
-				Stage curr = (Stage)btnRegister.getScene().getWindow();
+				Stage curr = (Stage) btnRegister.getScene().getWindow();
 				curr.close();
-				
+
 				Stage next = new Stage();
 				try {
 					new Login().start(next);
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
-								
+
 			} else {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Alert");

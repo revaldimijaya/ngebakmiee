@@ -75,13 +75,13 @@ public class CartController {
 	
 	public static String checkoutCart(String UserID) {
 		String transactionId = HeaderController.generateID();
-		Vector<Cart> carts = getAllCart(User.currentUser.getId());
+		Vector<Cart> carts = getAllCart(UserID);
 		if(carts.isEmpty()) {
 			return ErrorInfo.emptyCart;
 		}
-		HeaderController.insertHeaderTransaction(transactionId, User.currentUser.getId(), LocalDate.now());
+		HeaderController.insertHeaderTransaction(transactionId, UserID, LocalDate.now());
 		DetailController.insertDetailTransaction(transactionId, carts);
-		clearCart(User.currentUser.getId());
+		clearCart(UserID);
 		
 		return SuccessInfo.successCheckoutCart;
 	}
